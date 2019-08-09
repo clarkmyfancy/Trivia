@@ -19,12 +19,38 @@ package com.example.android.navigation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("UNUSED_VARIABLE")
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        drawerLayout = binding.drawerLayout
+        // to hook up the 'up' button with the back stack
+        // find the navController from myNavHostFragment
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        // then link the navController to the ActionBar
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        NavigationUI.setupWithNavController(binding.navView, navController)
+    }
+
+    // can use ctrl + o to bring up a menu that lists functions that can be overwritten.
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+//        return navController.navigateUp()\
+        // now we need to include the navigation drawer
+        return NavigationUI.navigateUp(navController, drawerLayout)
+        // this is so the navigation ui can replace the up button with the navigation drwawer button
+            // when we get to the start destination
     }
 }

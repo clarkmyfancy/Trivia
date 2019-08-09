@@ -99,12 +99,17 @@ class GameFragment : Fragment() {
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
                         // find the navController from the view and navigate to the gamewoonFragmanet
-                        view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+//                        view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+                        view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameWonFragment(numQuestions, questionIndex))
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.
                     // find the navcontroller from the view an dnavigate to the gameoverframgnet
-                    view.findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
+//                    view.findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
+
+                    // this uses the safe args passing pattern. next you need to pass the arguemtns
+                        // this is taken care of directly in the naviagation graph in navigation.xml
+                    view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment())
                 }
             }
         }
